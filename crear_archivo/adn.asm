@@ -106,15 +106,15 @@ generar_adn:
 		
 		.imprimir:
 		
-			mov eax,4
-			mov ebx,1
-			mov ecx,cadena
-			mov edx,1000000
-			int 80h
+			;mov eax,4
+			;mov ebx,1
+			;mov ecx,cadena
+			;mov edx,1000000
+			;int 80h
 			
-			push new_line
-			call printf
-			add esp,4
+			;push new_line
+			;call printf
+			;add esp,4
 			
 crear_archivo: 	
 	xor eax,eax
