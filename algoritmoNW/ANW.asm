@@ -100,12 +100,13 @@ main:
 	mov edx, proteinas1Len
 	int 80h
 	
-	mov eax, 4
-	mov ebx, 1
+	mov eax, 6
 	int 80h
 	
-	;mov eax, 6
+	;mov eax, 4
+	;mov ebx, 1
 	;int 80h
+	
 	
 	xor eax, eax
 	xor ebx, ebx
@@ -134,9 +135,12 @@ main:
 	mov edx, proteinas2Len
 	int 80h
 	
-	mov eax, 4
-	mov ebx, 1
+	mov eax, 6
 	int 80h
+	
+	;mov eax, 4
+	;mov ebx, 1
+	;int 80h
 	
 	
 CambioVar:
