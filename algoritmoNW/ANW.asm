@@ -1,6 +1,10 @@
 section .data
 	
 	mensajeInicio: db "Algoritmo Needleman-Wunsch",10,10,0
+
+	mensajeArchivo1: db "Cual es el nombre del primer archivo *.adn?: ",0
+	mensajeArchivo2: db "Cual es el nombre del segundo archivo *.adn?: ",0
+	
 	mensajePar: db "Desea cambiar el valor de las variables de la matriz? (s/n): ",0
 	mensajeParMal: db "El caracter ingresado no es correcto, intenta de nuevo",10,0
 	
@@ -27,13 +31,24 @@ section .data
 	preguntaTT: db "Cual sera el nuevo valor para las proteinas cuando sean TT?: ",0
 	preguntaGap: db "Cual sera el nuevo valor para el GAP?: ",0
 	
+	;proteinas1: db "ATGATA"
+	;proteinas1Len: equ $-proteinas1
+	;proteinas2: db "AACAT"
+	;proteinas2Len: equ $-proteinas2
+	
 section .bss
 	
 	garbage: resb 4
 	proteinas1: resb 1000000
+	proteinas1Len: equ $-proteinas1
 	proteinas2: resb 1000000
+	proteinas2Len: equ $-proteinas2
+	matrizProteinasX: resb 1000000
+	matrizProteinasY: resb 1000000
 	matrizProteinas: resb 1000000000000
 	
+	nombreArchivo1: resb 10
+	nombreArchivo2: resb 10
 	cAA: resb 2
 	cAG: resb 2
 	cAC: resb 2
@@ -64,7 +79,66 @@ main:
 	push mensajeInicio
 	call printf
 	add esp, 4
-
+	
+	push mensajeArchivo1
+	call printf
+	add esp, 4
+	
+	push nombreArchivo1
+	push string
+	call scanf
+	add esp,8
+	
+	mov ebx, nombreArchivo1
+	mov eax, 5
+	mov ecx, 0
+	int 80h
+	
+	mov eax, 3
+	mov ebx, eax
+	mov ecx, proteinas1
+	mov edx, proteinas1Len
+	int 80h
+	
+	mov eax, 4
+	mov ebx, 1
+	int 80h
+	
+	;mov eax, 6
+	;int 80h
+	
+	xor eax, eax
+	xor ebx, ebx
+	xor ecx, ecx
+	xor edx, edx
+	xor edi, edi
+	xor esi, esi
+	
+	push mensajeArchivo2
+	call printf
+	add esp, 4
+	
+	push nombreArchivo2
+	push string
+	call scanf
+	add esp,8
+	
+	mov ebx, nombreArchivo2
+	mov eax, 5
+	mov ecx, 0
+	int 80h
+	
+	mov eax, 3
+	mov ebx, eax
+	mov ecx, proteinas2
+	mov edx, proteinas2Len
+	int 80h
+	
+	mov eax, 4
+	mov ebx, 1
+	int 80h
+	
+	
 CambioVar:
 	push mensajePar
 	call printf
@@ -175,17 +249,34 @@ iniciarMatriz:
 	
 	
 	;;;;;;;;;;;;; Imprimir el numero guardado a la hora de crear DEBUG
-	;movsx ebx, word[cAA]
+	;movsx ebx, word[gap]
 	;push ebx
 	;push digit
 	;call printf
 	;add esp,8
 	
-;inicioAlgoritmo
-	;.inicioMatriz
-		
-
+inicioAlgoritmo:
+	.Matriz:
+		xor ecx, ecx
+		xor eax, eax,
+		xor ebx, ebx
+		mov ebx, matrizProteinas
+		.forI:
+			xor esi, esi
+			cmp ecx, 1000000
+			jl .forJ
+			;jmp .imprimir
+			.forJ:
+				cmp esi, 1000000
+				jl .inicializacion
+				inc ecx
+				jmp .forI
+		.inicializacion:
+			mov eax, ecx
+				
+			
 salir:
 	mov eax, 1
 	mov ebx, 0
 	int 80h
+	
