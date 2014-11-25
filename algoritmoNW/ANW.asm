@@ -31,10 +31,6 @@ section .data
 	preguntaTT: db "Cual sera el nuevo valor para las proteinas cuando sean TT?: ",0
 	preguntaGap: db "Cual sera el nuevo valor para el GAP?: ",0
 	
-	;proteinas1: db "ATGATA"
-	;proteinas1Len: equ $-proteinas1
-	;proteinas2: db "AACAT"
-	;proteinas2Len: equ $-proteinas2
 	
 section .bss
 	
@@ -106,8 +102,6 @@ main:
 	;mov eax, 4
 	;mov ebx, 1
 	;int 80h
-	
-	
 	xor eax, eax
 	xor ebx, ebx
 	xor ecx, ecx
@@ -137,11 +131,9 @@ main:
 	
 	mov eax, 6
 	int 80h
-	
 	;mov eax, 4
 	;mov ebx, 1
 	;int 80h
-	
 	
 CambioVar:
 	push mensajePar
