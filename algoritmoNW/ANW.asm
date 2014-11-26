@@ -58,94 +58,94 @@ section .bss
 	gap: resb 2
 	
 section .text
-	extern printf
+	extern printf    ; Llamadas de las funciones de C
 	extern atoi
 	extern stdin
 	extern scanf
-	global main 
+	global main 	; variable global de inicio
 	
 main:
-	xor eax, eax
+	xor eax, eax	; limpieza de registros
 	xor ebx, ebx
 	xor ecx, ecx
 	xor edx, edx
 	xor edi, edi
 	xor esi, esi
 	
-	push mensajeInicio
+	push mensajeInicio ; Impresion de mensaje de inicio
 	call printf
 	add esp, 4
 	
-	push mensajeArchivo1
+	push mensajeArchivo1 ; Impresion de mensaje
 	call printf
 	add esp, 4
 	
-	push nombreArchivo1
+	push nombreArchivo1 ; input por parte del usuario
 	push string
 	call scanf
 	add esp,8
 	
-	mov ebx, nombreArchivo1
+	mov ebx, nombreArchivo1 ;abre el archivo que se colocó en el input
 	mov eax, 5
 	mov ecx, 0
 	int 80h
 	
-	mov eax, 3
+	mov eax, 3				;carga a la memoria reservada el archivo
 	mov ebx, eax
 	mov ecx, proteinas1
 	mov edx, proteinas1Len
 	int 80h
 	
-	mov eax, 6
+	mov eax, 6				;cierra el archivo para dar chance al otro
 	int 80h
 	
-	;mov eax, 4
+	;mov eax, 4				;impresión DEBUG
 	;mov ebx, 1
 	;int 80h
-	xor eax, eax
+	xor eax, eax			;Limpieza de registros
 	xor ebx, ebx
 	xor ecx, ecx
 	xor edx, edx
 	xor edi, edi
 	xor esi, esi
 	
-	push mensajeArchivo2
+	push mensajeArchivo2	;mensaje del 2 archivo
 	call printf
 	add esp, 4
 	
-	push nombreArchivo2
+	push nombreArchivo2		;input para el segundo archivo
 	push string
 	call scanf
 	add esp,8
 	
-	mov ebx, nombreArchivo2
+	mov ebx, nombreArchivo2	; abre el archivo
 	mov eax, 5
 	mov ecx, 0
 	int 80h
 	
-	mov eax, 3
+	mov eax, 3				; carga a memoria el archivo que se llamó en el input
 	mov ebx, eax
 	mov ecx, proteinas2
 	mov edx, proteinas2Len
 	int 80h
 	
-	mov eax, 6
+	mov eax, 6				;cierra el archivo
 	int 80h
-	;mov eax, 4
+	;mov eax, 4				; imprimir datos archivo DEBUG
 	;mov ebx, 1
 	;int 80h
 	
 CambioVar:
-	push mensajePar
+	push mensajePar			;Cambia los parámetros
 	call printf
 	add esp, 4
 	
-	push garbage
+	push garbage			; Se guarda la opcion
 	push string
 	call scanf
 	add esp, 8
 	
-	xor eax, eax
+	xor eax, eax			;se compara si es un "n" o "s"
 	mov al, byte[garbage]
 	cmp al, "s" 
 	je cambiarVar
@@ -156,7 +156,7 @@ CambioVar:
 	add esp, 4
 	jmp CambioVar
 	
-cambiarVar:				;;;;;;;;;;;;;;;;;;;;; AQUI ES EL INPUT QUE SE JODE
+cambiarVar:				;;;;;;;;;;;;;;;;;;;;; AQUI ES EL INPUT QUE SE DAÑA la impresion de matriz
 	
 	push preguntaAA              ;;;;;; Impresion de pregunta
 	call printf
@@ -178,7 +178,7 @@ cambiarVar:				;;;;;;;;;;;;;;;;;;;;; AQUI ES EL INPUT QUE SE JODE
 	jmp iniciarMatriz
 
 defaultVar:
-	xor eax, eax			;;;;;;;;;;;;;;;;;;;;; Parte logica
+	xor eax, eax			;;;;;;;;;;;;;;;;;;;;; Parte logica para los valores de la matriz
 	mov ax, 10
 	mov word[cAA], ax
 	mov ax, -1
@@ -221,7 +221,7 @@ defaultVar:
 	mov word[matrizProteinas6+5], "-5"
 
 iniciarMatriz:
-	push matrizProteinasMensaje
+	push matrizProteinasMensaje ; imprime la matriz de manera que la vea el usuario
 	call printf
 	add esp, 4
 	push matrizProteinas1
@@ -271,7 +271,7 @@ inicioAlgoritmo:
 			mov eax, ecx
 				
 			
-salir:
+salir:				;salida del programa
 	mov eax, 1
 	mov ebx, 0
 	int 80h

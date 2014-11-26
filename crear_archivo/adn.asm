@@ -13,7 +13,7 @@ section .bss
 	cadena: resb 1000000
 	
 section .text
-	extern printf
+	extern printf ;funciones C
 	extern srand
 	extern time
 	extern rand
@@ -21,31 +21,31 @@ section .text
 	global main
 
 main:
-	push msg_cantidad
+	push msg_cantidad ; mensaje en pantalla
 	call printf
 	add esp,4
 
-	push cantidad
+	push cantidad ; input de cantidad de secuencias
 	push int
 	call scanf
 	add esp,8
 
-	push msg_nombre_arc
+	push msg_nombre_arc ;mensaje archivo
 	call printf
 	add esp,4
 	
-	push nombre
+	push nombre	;input usuario
 	push string
 	call scanf
 	add esp,8
 	
-	xor edx,edx
+	xor edx,edx ;limpieza de registros
 	xor ecx,ecx
 	mov ecx,10
 
 generar_adn:
-	xor ecx,ecx
-	push 0
+	xor ecx,ecx ;semilla para crear el random de C
+	push 0		
 	call time
 	add esp,4
 	
@@ -59,7 +59,7 @@ generar_adn:
 		je .imprimir
 		
 		.random:
-			push ebp
+			push ebp		;función para crear número random
 			mov ebp,esp
 			
 			mov ecx,29
@@ -84,7 +84,7 @@ generar_adn:
 			cmp eax,3
 			je .agregar_T
 			
-			.seguir:
+			.seguir:			;Ciclo para agregar de forma random A C G o T
 				inc esi 	
 				loop .ciclo
 			
@@ -117,17 +117,17 @@ generar_adn:
 			;add esp,4
 			
 crear_archivo: 	
-	xor eax,eax
+	xor eax,eax ; limpieza de registros
 	xor ebx,ebx
 	xor ecx,ecx
 	
 	.ciclo2:
-		mov al, byte[nombre+ecx]
-		cmp al,0
+		mov al, byte[nombre+ecx] ;ciclo para llegar al final del nombre 
+		cmp al,0				 ;del archivo y luego salta para poner la extension
 		je .agregar_extension
 		jne .seguir
 	
-	.agregar_extension:
+	.agregar_extension:			;agrega la extension del archivo
 		mov edx,[extension]
 		mov [nombre+ecx],edx
 		
@@ -137,7 +137,7 @@ crear_archivo:
 		inc ecx
 		jmp .ciclo2
 	
-	.guardar_archivo:
+	.guardar_archivo:		;funcion para guardar el archivo
 		mov eax, 8
 		mov ebx, nombre
 		mov ecx, 0x0777
@@ -149,10 +149,10 @@ crear_archivo:
 		mov edx, [cantidad]
 		int 80h
 		
-		mov eax, 6
+		mov eax, 6			;cierra el archivo
 		int 80h
 
-salir:
+salir:			;salida del programa
 	mov eax,1
 	mov ebx,0
 	int 80h
